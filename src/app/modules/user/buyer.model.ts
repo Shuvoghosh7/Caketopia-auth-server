@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
-import { AdminModel, IAdmin } from './admin.interface';
-import config from '../../../config';
 
-const AdminSchema = new Schema<IAdmin, AdminModel>(
+import config from '../../../config';
+import { IBuyer, BuyerModel } from './buyer.interface';
+
+const BuyerSchema = new Schema<IBuyer, BuyerModel>(
   {
     id: {
       type: String,
@@ -23,6 +24,11 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
       },
       required: true,
     },
+    password: {
+      type: String,
+      required: true,
+      select: 0,
+    },
     gender: {
       type: String,
       enum: ['male', 'female'],
@@ -30,6 +36,10 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
     email: {
       type: String,
       unique: true,
+      required: true,
+    },
+    role: {
+      type: String,
       required: true,
     },
     contactNo: {
@@ -53,26 +63,26 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
     timestamps: true,
   }
 );
-/* 
-AdminSchema.statics.isUserExist = async function (
+
+BuyerSchema.statics.isUserExist = async function (
   email: string
 ): Promise<Pick<
-  IAdmin,'email' | 'password' | 'role'
+IBuyer,'email' | 'password' | 'role'
 > | null> {
-  return await Admin.findOne(
+  return await Buyer.findOne(
     { email },
     { email: 1, password: 1, role: 1}
   );
-}; */
+};
 
-/* AdminSchema.statics.isPasswordMatched = async function (
+BuyerSchema.statics.isPasswordMatched = async function (
   givenPassword: string,
   savedPassword: string
 ): Promise<boolean> {
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 
-AdminSchema.pre('save', async function (next) {
+BuyerSchema.pre('save', async function (next) {
   // hashing user password
   const user = this;
   user.password = await bcrypt.hash(
@@ -80,6 +90,6 @@ AdminSchema.pre('save', async function (next) {
     Number(config.bycrypt_salt_rounds)
   );
   next();
-}); */
+});
 
-export const Admin = model<IAdmin, AdminModel>('Admin', AdminSchema);
+export const Buyer = model<IBuyer, BuyerModel>('Buyer', BuyerSchema);

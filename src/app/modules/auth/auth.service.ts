@@ -9,29 +9,32 @@ import {
   ILoginUserResponse,
   IRefreshTokenResponse,
 } from './auth.interface';
-import { Admin } from '../admin/admin.model';
+
 import config from '../../../config';
+import { User } from '../users/user.model';
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { email, password } = payload;
 
 
-  const isUserExist = await Admin.isUserExist(email);
+  const isUserExist = await User.isUserExist(email);
   
+ console.log(isUserExist)
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
 
   if (
     isUserExist.password &&
-    !(await Admin.isPasswordMatched(password, isUserExist.password))
+    !(await User.isPasswordMatched(password, isUserExist.password))
   ) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
   }
 
   //create access token & refresh token
 
-  const { email: userEmail, role } = isUserExist;
+  const { email: userEmail, role} = isUserExist;
+  
   const accessToken = jwtHelpers.createToken(
     { userEmail, role },
     config.jwt.secret as Secret,
@@ -39,7 +42,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   );
   
   const refreshToken = jwtHelpers.createToken(
-    { userEmail, role },
+    { userEmail, role},
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string
   );
@@ -69,7 +72,7 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   // tumi delete hye gso  kintu tumar refresh token ase
   // checking deleted user's refresh token
 
-  const isUserExist = await Admin.isUserExist(userEmail);
+  const isUserExist = await User.isUserExist(userEmail);
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }

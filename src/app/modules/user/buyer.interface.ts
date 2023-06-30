@@ -5,26 +5,27 @@ export type UserName = {
   lastName: string;
 };
 
-export type IAdmin = {
-  id?: string;
+export type IBuyer = {
+  id:string;
   name: UserName;
   profileImage: string;
   email: string;
- 
+  role: string;
+  password: string;
   contactNo: string;
   gender?: 'male' | 'female';
   permanentAddress?: string;
   presentAddress?: string;
 };
 
-/* export type AdminModel = {
+export type BuyerModel = {
   isUserExist(
     email: string
-  ): Promise<Pick<IAdmin, 'email' | 'password' | 'role' >>;
+  ): Promise<Pick<IBuyer, 'email' | 'password' | 'role' >>;
   isPasswordMatched(
     givenPassword: string,
     savedPassword: string
   ): Promise<boolean>;
-} & Model<IAdmin>; */
-export type AdminModel = Model<IAdmin, Record<string, unknown>>;
+} & Model<IBuyer>;
+// export type AdminModel = Model<IAdmin, Record<string, unknown>>;
 

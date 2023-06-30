@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
-import { IAdmin } from "./admin.interface";
+
 import { RequestHandler } from 'express-serve-static-core';
 import catchAsync from "../../../shared/catchAsync";
 import httpStatus from 'http-status';
 import sendResponse from "../../../shared/sendResponse";
-import { AdminService } from "./admin.service";
 
-const getAllAdmin: RequestHandler = catchAsync(
+import { IBuyer } from "./buyer.interface";
+import { UserService } from "./buyer.vervice";
+
+const createUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-  
-    const result = await AdminService.getAllAdmin();
-    
+    const { ...user } = req.body;
+    const result = await UserService.createUser(user);
 
-    sendResponse(res, {
+    sendResponse<IBuyer>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'user created successfully!',
@@ -21,6 +22,6 @@ const getAllAdmin: RequestHandler = catchAsync(
   }
 );
 
-export const AdminController = {
-  getAllAdmin
+export const UserController = {
+  createUser
 };

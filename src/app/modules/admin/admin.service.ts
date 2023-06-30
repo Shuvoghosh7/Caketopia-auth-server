@@ -2,13 +2,13 @@ import { IAdmin } from "./admin.interface";
 import { Admin } from "./admin.model";
 
 
-const createAdmin = async (admin: IAdmin): Promise<IAdmin | null> => {
+const getAllAdmin = async () => {
   // set role
-  admin.role = "admin";
-  const result = await Admin.create(admin);
+  
+  const result = await Admin.find();
   return result;
 };
 
 export const AdminService = {
-  createAdmin,
+  getAllAdmin,
 };
