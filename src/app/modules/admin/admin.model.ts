@@ -1,5 +1,7 @@
+import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import { AdminModel, IAdmin } from './admin.interface';
+import config from '../../../config';
 
 const AdminSchema = new Schema<IAdmin, AdminModel>(
   {
@@ -30,6 +32,10 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
       unique: true,
       required: true,
     },
+    role: {
+      type: String,
+      required: true,
+    },
     contactNo: {
       type: String,
       unique: true,
@@ -51,5 +57,33 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
     timestamps: true,
   }
 );
+
+AdminSchema.statics.isUserExist = async function (
+  email: string
+): Promise<Pick<
+  IAdmin,'email' | 'password' | 'role'
+> | null> {
+  return await Admin.findOne(
+    { email },
+    { email: 1, password: 1, role: 1}
+  );
+};
+
+AdminSchema.statics.isPasswordMatched = async function (
+  givenPassword: string,
+  savedPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(givenPassword, savedPassword);
+};
+
+AdminSchema.pre('save', async function (next) {
+  // hashing user password
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bycrypt_salt_rounds)
+  );
+  next();
+});
 
 export const Admin = model<IAdmin, AdminModel>('Admin', AdminSchema);
