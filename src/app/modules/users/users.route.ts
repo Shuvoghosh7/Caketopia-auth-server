@@ -5,9 +5,9 @@ import { UserValidation } from './user.validation';
 const router = express.Router();
 
 router.post(
-  '/create-user',
-  validateRequest(UserValidation.createAdminZodSchema),
-  UserController.createAdmin
+  '/create-buyer',
+  validateRequest(UserValidation.createBuyerZodSchema),
+  UserController.createBuyer
 );
 
 router.post(

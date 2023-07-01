@@ -1,12 +1,14 @@
 import express from 'express';
 
 import validateRequest from '../../middlewares/validateRequest';
-import { UserController } from './buyer.controller';
+
 import { UserValidation } from './buyer.validation';
+import auth from '../../middlewares/auth';
+import { BuyerController } from './buyer.controller';
 
 const router = express.Router();
 
 
-router.post('/create-user',validateRequest(UserValidation.createUserZodSchema),UserController.createUser);
+router.get('/',auth("buyer"), BuyerController.getAllBuyer);
 
 export const BuyerRoutes = router;

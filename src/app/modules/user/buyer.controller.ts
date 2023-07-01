@@ -6,14 +6,16 @@ import httpStatus from 'http-status';
 import sendResponse from "../../../shared/sendResponse";
 
 import { IBuyer } from "./buyer.interface";
-import { UserService } from "./buyer.vervice";
+import { BuyerService } from "./buyer.vervice";
 
-const createUser: RequestHandler = catchAsync(
+
+const getAllBuyer: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { ...user } = req.body;
-    const result = await UserService.createUser(user);
+  
+    const result = await BuyerService.getAllBuyer();
+    
 
-    sendResponse<IBuyer>(res, {
+    sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'user created successfully!',
@@ -22,6 +24,6 @@ const createUser: RequestHandler = catchAsync(
   }
 );
 
-export const UserController = {
-  createUser
+export const BuyerController = {
+  getAllBuyer
 };

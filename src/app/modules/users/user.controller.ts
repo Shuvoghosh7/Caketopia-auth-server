@@ -19,7 +19,21 @@ const createAdmin: RequestHandler = catchAsync(
     });
   }
 );
+const createBuyer: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { buyer, ...userData } = req.body;
+    const result = await UserService.createBuyer(buyer, userData);
+
+    sendResponse<IUser>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Admin created successfully!',
+      data: result,
+    });
+  }
+);
 
 export const UserController = {
   createAdmin,
+  createBuyer
 };

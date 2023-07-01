@@ -3,13 +3,13 @@ import { Buyer } from "./buyer.model";
 
 
 
-const createUser = async (user: IBuyer): Promise<IBuyer | null> => {
+const getAllBuyer = async () => {
   // set role
-  user.role = "user";
-  const result = await Buyer.create(user);
+  
+  const result = await Buyer.find();
   return result;
 };
 
-export const UserService = {
-  createUser,
+export const BuyerService = {
+  getAllBuyer,
 };
