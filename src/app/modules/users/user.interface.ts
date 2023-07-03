@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from 'mongoose';
 
-import { IBuyer } from '../user/buyer.interface';
+import { IBuyer } from '../buyer/buyer.interface';
 import { IAdmin } from '../admin/admin.interface';
 
 

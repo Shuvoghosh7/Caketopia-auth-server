@@ -7,8 +7,8 @@ import { IUser } from './user.interface';
 import { generateAdminId, generateBuyerId } from './user.utils';
 import { Admin } from '../admin/admin.model';
 import { User } from './user.model';
-import { IBuyer } from '../user/buyer.interface';
-import { Buyer } from '../user/buyer.model';
+import { IBuyer } from '../buyer/buyer.interface';
+import { Buyer } from '../buyer/buyer.model';
 
 const createAdmin = async (
   admin: IAdmin,
