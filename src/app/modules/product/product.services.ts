@@ -67,7 +67,35 @@ const getAllProducts = async (
   };
 };
 
+const getSingleProduct = async (
+  id: string
+): Promise<IProduct | null> => {
+  const result = await Product.findById(id);
+  return result;
+};
+
+const updateProduct = async (
+  id: string,
+  payload: Partial<IProduct>
+): Promise<IProduct | null> => {
+  
+  const result = await Product.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+
+const deleteProduct = async (
+  id: string
+): Promise<IProduct | null> => {
+  const result = await Product.findByIdAndDelete(id);
+  return result;
+};
+
 export const ProductService = {
   createProduct,
-  getAllProducts
+  getAllProducts,
+  getSingleProduct,
+  updateProduct,
+  deleteProduct
 };
