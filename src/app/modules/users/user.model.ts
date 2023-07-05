@@ -31,7 +31,7 @@ const UserSchema = new Schema<IUser, UserModel>(
     },
     buyer: {
       type: Schema.Types.ObjectId,
-      ref: 'Admin',
+      ref: 'Buyer',
     },
   },
   {

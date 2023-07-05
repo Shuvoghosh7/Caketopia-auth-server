@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 import sendResponse from "../../../shared/sendResponse";
 
 import { IBuyer } from "./buyer.interface";
-import { BuyerService } from "./buyer.vervice";
+import { BuyerService } from "./buyer.svervice";
 
 
 const getAllBuyer: RequestHandler = catchAsync(
